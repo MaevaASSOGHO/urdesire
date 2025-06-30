@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Sécurisé RSA</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    textarea, input { width: 100%; margin-top: 10px; }
+    .message { margin: 10px 0; padding: 10px; background: #f2f2f2; border-radius: 5px; }
+  </style>
+</head>
+<body>
+
+<h2>Chat RSA</h2>
+
+<!-- Clé publique de l’ami -->
+<textarea id="friendPublicKey" placeholder="Clé publique de l'ami (spki base64)"></textarea>
+<button onclick="importFriendPublicKey()">Importer la clé publique</button>
+
+<!-- Champ d’envoi -->
+<textarea id="messageInput" placeholder="Message à envoyer..."></textarea>
+<button onclick="sendMessage()">Envoyer</button>
+
+<!-- Messages -->
+<div id="chatBox"></div>
+
+<script>
+let myPrivateKey, myPublicKey, friendPublicKey;
+const userId = 1; // À adapter avec session
+const contactId = 2; // Id de l'autre utilisateur
+
+// Clés : génération une fois
+generateKeyPair();
+
+async function generateKeyPair() {
+  const keyPair = await crypto.subtle.generateKey({
+    name: "RSA-OAEP",
+    modulusLength: 2048,
+    publicExponent: new Uint8Array([1, 0, 1]),
+    hash: "SHA-256",
+  }, true, ["encrypt", "decrypt"]);
+
+  myPublicKey = keyPair.publicKey;
+  myPrivateKey = keyPair.privateKey;
+
+  const exported = await crypto.subtle.exportKey("spki", myPublicKey);
+  const base64Key = btoa(String.fromCharCode(...new Uint8Array(exported)));
+  console.log("Ma clé publique (à partager) :", base64Key);
+}
+
+async function importFriendPublicKey() {
+  const base64 = document.getElementById("friendPublicKey").value;
+  const binary = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+  friendPublicKey = await crypto.subtle.importKey(
+    "spki", binary,
+    { name: "RSA-OAEP", hash: "SHA-256" },
+    true, ["encrypt"]
+  );
+  alert("Clé publique importée !");
+}
+
+async function sendMessage() {
+  const message = document.getElementById("messageInput").value;
+  const encoded = new TextEncoder().encode(message);
+  const encrypted = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, friendPublicKey, encoded);
+  const encryptedBase64 = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+
+  await fetch('send_message.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      sender_id: userId,
+      receiver_id: contactId,
+      encrypted_message: encryptedBase64
+    })
+  });
+
+  document.getElementById("messageInput").value = "";
+  loadMessages();
+}
+
+async function loadMessages() {
+  const res = await fetch(`get_messages.php?sender_id=${userId}&receiver_id=${contactId}`);
+  const messages = await res.json();
+  const box = document.getElementById("chatBox");
+  box.innerHTML = "";
+
+  for (const msg of messages) {
+    let text = "(chiffré)";
+    if (msg.receiver_id == userId) {
+      try {
+        const encryptedBytes = Uint8Array.from(atob(msg.encrypted_message), c => c.charCodeAt(0));
+        const decrypted = await crypto.subtle.decrypt({ name: "RSA-OAEP" }, myPrivateKey, encryptedBytes);
+        text = new TextDecoder().decode(decrypted);
+      } catch {
+        text = "[Impossible de déchiffrer]";
+      }
+    }
+    box.innerHTML += `<div class="message"><b>De ${msg.sender_id}:</b> ${text}</div>`;
+  }
+}
+
+setInterval(loadMessages, 3000); // Actualisation régulière
+</script>
+
+</body>
+</html>

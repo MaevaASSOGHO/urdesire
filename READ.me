@@ -1,0 +1,74 @@
+changement profile photo 
+Bienvenue Mr. Admin!
+p>Vous avez <span>08</span> notifications</p>
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pseudo VARCHAR(100),
+    email VARCHAR(100),
+    mot_de_passe VARCHAR(255),
+    avatar VARCHAR(255) DEFAULT 'assets/img/users/default.jpg',
+    adresse TEXT,
+    ville VARCHAR(100),
+    telephone VARCHAR(20),
+    code_postal VARCHAR(10),
+    pays VARCHAR(100),
+    notifications INT DEFAULT 0
+);
+
+CREATE TABLE orders (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  total_amount DECIMAL(10,2) NOT NULL,
+  status ENUM('en_attente', 'payée', 'expédiée', 'livrée', 'annulée') DEFAULT 'en_attente',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+ALTER TABLE orders ADD COLUMN order_number VARCHAR(100) UNIQUE AFTER id;
+
+CREATE TABLE order_items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  order_id INT NOT NULL,
+  product_id INT NOT NULL,
+  quantity INT NOT NULL DEFAULT 1,
+  price DECIMAL(10,2) NOT NULL,
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+);
+
+ALTER TABLE wishlists ADD COLUMN quantity INT NOT NULL DEFAULT 1;
+ALTER TABLE cart_items ADD COLUMN quantity INT NOT NULL DEFAULT 1;
+
+
+CREATE TABLE user_profiles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    phone_number VARCHAR(30),
+    address VARCHAR(255),
+    bio TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE notifications (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  message TEXT NOT NULL,
+  type ENUM('success','error','info') DEFAULT 'info',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+ALTER TABLE notifications ADD is_read TINYINT(1) DEFAULT 0;
+
+CREATE TABLE user_addresses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    type ENUM('facturation', 'livraison') NOT NULL,
+    street VARCHAR(255),
+    city VARCHAR(100),
+    phone VARCHAR(20),
+    postal_code VARCHAR(10),
+    country_code VARCHAR(10),
+    country_name VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

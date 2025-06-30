@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Messagerie RSA Chiffrée</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      background: #f2f2f2;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+    }
+    input, button, textarea {
+      margin-top: 10px;
+      padding: 8px;
+      font-size: 14px;
+    }
+    .section {
+      margin-bottom: 30px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Messagerie RSA Chiffrée (Côté client)</h1>
+
+  <div class="section">
+    <h3>1. Génération de clés</h3>
+    <button onclick="generateKeyPair()">🔐 Générer mes clés</button><br>
+    <label>Clé publique (à partager) :</label>
+    <textarea id="publicKeyDisplay" readonly></textarea>
+    <label>Clé privée (gardée secrète) :</label>
+    <textarea id="privateKeyDisplay" readonly></textarea>
+  </div>
+
+  <div class="section">
+    <h3>2. Clé publique de votre contact</h3>
+    <textarea id="contactPublicKey" placeholder="Collez ici la clé publique de votre contact..."></textarea>
+    <button onclick="importContactPublicKey()">📥 Importer la clé publique</button>
+  </div>
+
+  <div class="section">
+    <h3>3. Envoyer un message</h3>
+    <textarea id="messageToEncrypt" placeholder="Tapez le message à chiffrer..."></textarea>
+    <button onclick="encryptMessage()">📤 Chiffrer et copier</button>
+    <textarea id="encryptedOutput" readonly placeholder="Message chiffré ici..."></textarea>
+  </div>
+
+  <div class="section">
+    <h3>4. Réception d’un message chiffré</h3>
+    <textarea id="messageToDecrypt" placeholder="Collez ici le message chiffré reçu..."></textarea>
+    <button onclick="decryptMessage()">📥 Déchiffrer</button>
+    <textarea id="decryptedOutput" readonly placeholder="Message déchiffré ici..."></textarea>
+  </div>
+
+<script>
+  let myPublicKey, myPrivateKey, contactPublicKey;
+
+  async function generateKeyPair() {
+    const keyPair = await crypto.subtle.generateKey(
+      {
+        name: "RSA-OAEP",
+        modulusLength: 2048,
+        publicExponent: new Uint8Array([1, 0, 1]),
+        hash: "SHA-256",
+      },
+      true,
+      ["encrypt", "decrypt"]
+    );
+
+    myPublicKey = keyPair.publicKey;
+    myPrivateKey = keyPair.privateKey;
+
+    const pubKeyExported = await crypto.subtle.exportKey("spki", myPublicKey);
+    const privKeyExported = await crypto.subtle.exportKey("pkcs8", myPrivateKey);
+
+    document.getElementById("publicKeyDisplay").value = btoa(String.fromCharCode(...new Uint8Array(pubKeyExported)));
+    document.getElementById("privateKeyDisplay").value = btoa(String.fromCharCode(...new Uint8Array(privKeyExported)));
+  }
+
+  async function importContactPublicKey() {
+    const keyStr = document.getElementById("contactPublicKey").value;
+    const binaryDer = Uint8Array.from(atob(keyStr), c => c.charCodeAt(0));
+    contactPublicKey = await crypto.subtle.importKey(
+      "spki",
+      binaryDer,
+      { name: "RSA-OAEP", hash: "SHA-256" },
+      true,
+      ["encrypt"]
+    );
+    alert("✅ Clé publique de votre contact importée !");
+  }
+
+  async function encryptMessage() {
+    const text = document.getElementById("messageToEncrypt").value;
+    if (!contactPublicKey) return alert("Veuillez importer une clé publique !");
+    const encoded = new TextEncoder().encode(text);
+    const encrypted = await crypto.subtle.encrypt(
+      { name: "RSA-OAEP" },
+      contactPublicKey,
+      encoded
+    );
+    const encryptedBase64 = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+    document.getElementById("encryptedOutput").value = encryptedBase64;
+    navigator.clipboard.writeText(encryptedBase64);
+    alert("✉️ Message chiffré et copié !");
+  }
+
+  async function decryptMessage() {
+    const encryptedBase64 = document.getElementById("messageToDecrypt").value;
+    const encryptedBytes = Uint8Array.from(atob(encryptedBase64), c => c.charCodeAt(0));
+    try {
+      const decrypted = await crypto.subtle.decrypt(
+        { name: "RSA-OAEP" },
+        myPrivateKey,
+        encryptedBytes
+      );
+      const text = new TextDecoder().decode(decrypted);
+      document.getElementById("decryptedOutput").value = text;
+    } catch (e) {
+      alert("❌ Erreur lors du déchiffrement : vérifiez que la clé est correcte.");
+    }
+  }
+</script>
+
+</body>
+</html>
