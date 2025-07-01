@@ -106,8 +106,12 @@ if ($user_id) {
     $shipping_address = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 ?>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
+
+<!-- Mirrored from html.weblearnbd.net/shofy-prv/shofy/index-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 15 Oct 2023 08:17:47 GMT -->
+
 <head>
    <meta charset="utf-8">
    <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -115,6 +119,8 @@ if ($user_id) {
    <meta name="description" content="">
    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+   <!-- Place favicon.ico in the root directory -->
+   <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo/favicon-32x32.png">
 
    <!-- CSS here -->
    <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo/favicon-32x32.png">
@@ -321,9 +327,9 @@ if ($user_id) {
                   <div class="tp-search-close text-center mb-20">
                      <button class="tp-search-close-btn tp-search-close-btn"></button>
                   </div>
-                  <form action="profile.php" method="get">
+                  <form action="#">
                      <div class="tp-search-input mb-10">
-                        <input type="text" name="query" placeholder="Recherche un produit...">
+                        <input type="text" placeholder="Recherche un produit...">
                         <button type="submit"><i class="flaticon-search-1"></i></button>
                      </div>
                      <div class="tp-search-category">
@@ -393,14 +399,16 @@ if ($user_id) {
                <span>$113.00</span>
             </div>
             <div class="cartmini__checkout-btn">
-               <a href="cart.html" class="tp-btn mb-10 w-100" style="background-color: #E44C76;" onmouseover="this.style.backgroundColor='#C50E40'" onmouseout="this.style.backgroundColor='#E44C76'"> view cart</a>
+               <a href="cart.php" class="tp-btn mb-10 w-100" style="background-color: #E44C76;" onmouseover="this.style.backgroundColor='#C50E40'" onmouseout="this.style.backgroundColor='#E44C76'"> view cart</a>
                <a href="checkout.html" class="tp-btn tp-btn-border w-100" style="background-color: #E44C76;" onmouseover="this.style.backgroundColor='#C50E40'" onmouseout="this.style.backgroundColor='#E44C76'"> checkout</a>
             </div>
          </div>
       </div>
    </div>
    <!-- cart mini area end -->
-<?php include 'includes/header.php'; ?>
+   <header>
+      <?php include 'includes/header.php'; ?>
+   </header>
 
       <main>
 
@@ -425,13 +433,7 @@ if ($user_id) {
                               <button class="nav-link" id="nav-information-tab" data-bs-toggle="tab" data-bs-target="#nav-information" type="button" role="tab" aria-controls="nav-information" aria-selected="false"><span><i class="fa-regular fa-circle-info"></i></span> Information</button>
                               <button class="nav-link" id="nav-address-tab" data-bs-toggle="tab" data-bs-target="#nav-address" type="button" role="tab" aria-controls="nav-address" aria-selected="false"><span><i class="fa-light fa-location-dot"></i></span> Adresse </button>
                               <button class="nav-link" id="nav-order-tab" data-bs-toggle="tab" data-bs-target="#nav-order" type="button" role="tab" aria-controls="nav-order" aria-selected="false"><span><i class="fa-light fa-clipboard-list-check"></i></span> Mes Commandes </button>
-                              <button class="nav-link" id="nav-notification-tab" data-bs-toggle="tab" data-bs-target="#nav-notification" type="button" role="tab" aria-controls="nav-notification" aria-selected="false">
-                                 <span><i class="fa-regular fa-bell"></i></span>
-                                 Notifications
-                                 <?php if (!empty($unread_count)): ?>
-                                    <span class="badge bg-danger ms-2"><?= $unread_count ?></span>
-                                 <?php endif; ?>
-                              </button>                              
+                              <button class="nav-link" id="nav-notification-tab" data-bs-toggle="tab" data-bs-target="#nav-notification" type="button" role="tab" aria-controls="nav-notification" aria-selected="false"><span><i class="fa-regular fa-bell"></i></span> Notifications</button>
                               <button class="nav-link" id="nav-password-tab" data-bs-toggle="tab" data-bs-target="#nav-password" type="button" role="tab" aria-controls="nav-password" aria-selected="false"><span><i class="fa-regular fa-lock"></i></span> Changer le Mot de Passe</button>
                               <span id="marker-vertical" class="tp-tab-line d-none d-sm-inline-block"></span>
                            </div>
@@ -510,7 +512,6 @@ if ($user_id) {
                                  </div>
                               </div>
                            </div>
-
                            <div class="tab-pane fade" id="nav-information" role="tabpanel" aria-labelledby="nav-information-tab">
                               <div class="profile__info">
                                  <h3 class="profile__info-title">Détails Personnels</h3>
@@ -620,7 +621,6 @@ if ($user_id) {
                                  </form>
                               </div>
                            </div>
-
                            <div class="tab-pane fade" id="nav-address" role="tabpanel" aria-labelledby="nav-address-tab">
                               <div class="profile__address">
                                  <div class="row">
@@ -672,49 +672,10 @@ if ($user_id) {
 
                            </div>
                            <div class="tab-pane fade" id="nav-order" role="tabpanel" aria-labelledby="nav-order-tab">
-                              <div class="profile__ticket table-responsive">
-                                 <table class="table">
-                                    <thead>
-                                       <tr>
-                                          <th scope="col">Id de la Commande</th>
-                                          <th scope="col">Titre du Produit</th>
-                                          <th scope="col">Statut</th>
-                                          <th scope="col">Voir</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       <?php if (!empty($orders)): ?>
-                                          <?php foreach ($orders as $order): ?>
-                                             <tr>
-                                                <th scope="row">#<?= htmlspecialchars($order['order_number']) ?></th>
-                                                <td>
-                                                   <?php
-                                                   // On récupère le premier titre de produit associé à la commande
-                                                   $stmtItems = $pdo->prepare("
-                                                      SELECT p.title FROM order_items oi
-                                                      JOIN products p ON oi.product_id = p.id
-                                                      WHERE oi.order_id = ?
-                                                      LIMIT 1
-                                                   ");
-                                                   $stmtItems->execute([$order['id']]);
-                                                   $product = $stmtItems->fetchColumn();
-                                                   echo htmlspecialchars($product ?? 'Produit inconnu');
-                                                   ?>
-                                                </td>
-                                                <td><?= ucfirst(htmlspecialchars($order['status'])) ?></td>
-                                                <td>
-                                                   <a href="facture.php?order=<?= $order['id'] ?>" class="tp-logout-btn">Voir</a>
-                                                </td>
-                                             </tr>
-                                          <?php endforeach; ?>
-                                       <?php else: ?>
-                                          <tr>
-                                             <td colspan="4">Aucune commande trouvée.</td>
-                                          </tr>
-                                       <?php endif; ?>
-                                    </tbody>
-                                 </table>
-                              </div>
+                              <?php
+                                 // Inclure le fichier de commandes
+                                 require_once 'myorder.php';
+                              ?>
                            </div>
                            <div class="tab-pane fade" id="nav-notification" role="tabpanel" aria-labelledby="nav-notification-tab">
                               <div class="profile__notification">
@@ -739,20 +700,7 @@ if ($user_id) {
      </section>
      <!-- profile area end -->
 
-   <?php
-      if (isset($_GET['success']) || isset($_GET['error'])) {
-         $notifType = isset($_GET['success']) ? 'success' : 'error';
-         $messages = [
-            'password_updated' => '✅ Votre mot de passe a été modifié avec succès.',
-            'unauthenticated' => 'Vous devez être connecté pour changer votre mot de passe.',
-            'missing_fields' => 'Veuillez remplir tous les champs.',
-            'nomatch' => '❌ Les nouveaux mots de passe ne correspondent pas.',
-            'wrong_old' => '❌ L’ancien mot de passe est incorrect.'
-         ];
-         $key = $_GET['success'] ?? $_GET['error'];
-         $msg = $messages[$key] ?? 'Notification inconnue.';
-   ?>
-      <!-- MODALE BOOTSTRAP -->
+     <!-- MODALE BOOTSTRAP -->
       <div class="modal fade" id="passwordFeedback" tabindex="-1" aria-labelledby="passwordFeedbackLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
          <div class="modal-content">
@@ -773,7 +721,7 @@ if ($user_id) {
          modal.show();
       });
       </script>
-   <?php } ?>
+
 
       <!-- MODALE FACTURATION -->
       <div class="modal fade" id="editBillingModal" tabindex="-1" aria-labelledby="editBillingModalLabel" aria-hidden="true">
@@ -862,7 +810,6 @@ if ($user_id) {
          </div>
       </div>
       </div>
-
 
       </main>
       
@@ -1007,26 +954,7 @@ if ($user_id) {
    </footer>
       <!-- footer area end -->
 
-
-
-      <!-- JS here -->
-      <!-- <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/vendor/jquery.js"></script> -->
-      <script src="assets/js/vendor/waypoints.js"></script>
-      <script src="assets/js/bootstrap-bundle.js"></script>
-      <script src="assets/js/meanmenu.js"></script>
-      <script src="assets/js/swiper-bundle.js"></script>
-      <script src="assets/js/slick.js"></script>
-      <script src="assets/js/range-slider.js"></script>
-      <script src="assets/js/magnific-popup.js"></script>
-      <script src="assets/js/nice-select.js"></script>
-      <script src="assets/js/purecounter.js"></script>
-      <script src="assets/js/countdown.js"></script>
-      <script src="assets/js/wow.js"></script>
-      <script src="assets/js/isotope-pkgd.js"></script>
-      <script src="assets/js/imagesloaded-pkgd.js"></script>
-      <script src="assets/js/ajax-form.js"></script>
-      <script src="assets/js/main.js"></script>
-
+      
       <script>
       function handleAddressForm(formId, type) {
       document.getElementById(formId).addEventListener('submit', function(e) {
@@ -1060,6 +988,25 @@ if ($user_id) {
       handleAddressForm('shippingForm', 'shipping');
       </script>
 
+
+
+      <!-- JS here -->
+      <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/vendor/jquery.js"></script>
+      <script src="assets/js/vendor/waypoints.js"></script>
+      <script src="assets/js/bootstrap-bundle.js"></script>
+      <script src="assets/js/meanmenu.js"></script>
+      <script src="assets/js/swiper-bundle.js"></script>
+      <script src="assets/js/slick.js"></script>
+      <script src="assets/js/range-slider.js"></script>
+      <script src="assets/js/magnific-popup.js"></script>
+      <script src="assets/js/nice-select.js"></script>
+      <script src="assets/js/purecounter.js"></script>
+      <script src="assets/js/countdown.js"></script>
+      <script src="assets/js/wow.js"></script>
+      <script src="assets/js/isotope-pkgd.js"></script>
+      <script src="assets/js/imagesloaded-pkgd.js"></script>
+      <script src="assets/js/ajax-form.js"></script>
+      <script src="assets/js/main.js"></script>
    </body>
 
 <!-- Mirrored from html.weblearnbd.net/shofy-prv/shofy/profile.php by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 15 Oct 2023 08:15:25 GMT -->

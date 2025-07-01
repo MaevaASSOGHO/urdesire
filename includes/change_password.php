@@ -1,46 +1,48 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-require_once(__DIR__ . '/../config.php');
+require_once("../config.php");
 session_start();
+header('Content-Type: application/json');
 
 $user_id = $_SESSION['user_id'] ?? null;
-$old_pass = $_POST['old_pass'] ?? '';
-$new_pass = $_POST['new_pass'] ?? '';
-$con_new_pass = $_POST['con_new_pass'] ?? '';
 
 if (!$user_id) {
-    header("Location: ../profile.php?error=unauthenticated");
+    echo json_encode(['success' => false, 'message' => "Utilisateur non connecté."]);
     exit;
 }
 
-if (empty($old_pass) || empty($new_pass) || empty($con_new_pass)) {
-    header("Location: ../profile.php?error=missing_fields");
-    exit;
-}
+$current = $_POST['current_password'] ?? '';
+$new = $_POST['new_password'] ?? '';
+$confirm = $_POST['confirm_password'] ?? '';
 
-if ($new_pass !== $con_new_pass) {
-    header("Location: ../profile.php?error=nomatch");
+if (empty($current) || empty($new) || empty($confirm)) {
+    echo json_encode(['success' => false, 'message' => "Tous les champs sont requis."]);
     exit;
 }
 
 $stmt = $pdo->prepare("SELECT password FROM users WHERE id = ?");
 $stmt->execute([$user_id]);
-$stored = $stmt->fetchColumn();
+$user = $stmt->fetch();
 
-if (!$stored || !password_verify($old_pass, $stored)) {
-    header("Location: ../profile.php?error=wrong_old");
+if (!$user || !password_verify($current, $user['password'])) {
+    echo json_encode(['success' => false, 'message' => "Mot de passe actuel incorrect."]);
     exit;
 }
 
-$hashed = password_hash($new_pass, PASSWORD_DEFAULT);
-$stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
-$stmt->execute([$hashed, $user_id]);
+if (strlen($new) < 6) {
+    echo json_encode(['success' => false, 'message' => "Le nouveau mot de passe est trop court (min. 6 caractères)."]);
+    exit;
+}
 
-$notif = $pdo->prepare("INSERT INTO notifications (user_id, message, type) VALUES (?, ?, ?)");
-$notif->execute([$user_id, 'Votre mot de passe a été changé avec succès.', 'success']);
+if ($new !== $confirm) {
+    echo json_encode(['success' => false, 'message' => "Les mots de passe ne correspondent pas."]);
+    exit;
+}
 
-header("Location: ../profile.php?success=password_updated");
-exit;
+$new_hash = password_hash($new, PASSWORD_DEFAULT);
+$pdo->prepare("UPDATE users SET password = ? WHERE id = ?")->execute([$new_hash, $user_id]);
+
+$pdo->prepare("INSERT INTO notifications (user_id, message, created_at) VALUES (?, ?, NOW())")
+    ->execute([$user_id, "Votre mot de passe a été modifié."]);
+
+echo json_encode(['success' => true, 'message' => "Mot de passe changé avec succès."]);
+?>

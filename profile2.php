@@ -1,6 +1,4 @@
 <?php
-$msg = $msg ?? null;
-
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 require_once 'config.php';
@@ -108,12 +106,8 @@ if ($user_id) {
     $shipping_address = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 ?>
-
 <!doctype html>
 <html class="no-js" lang="zxx">
-
-<!-- Mirrored from html.weblearnbd.net/shofy-prv/shofy/index-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 15 Oct 2023 08:17:47 GMT -->
-
 <head>
    <meta charset="utf-8">
    <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -121,8 +115,6 @@ if ($user_id) {
    <meta name="description" content="">
    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-   <!-- Place favicon.ico in the root directory -->
-   <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo/favicon-32x32.png">
 
    <!-- CSS here -->
    <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo/favicon-32x32.png">
@@ -135,7 +127,6 @@ if ($user_id) {
   <link rel="stylesheet" href="assets/css/flaticon_shofy.css">
   <link rel="stylesheet" href="assets/css/spacing.css">
   <link rel="stylesheet" href="assets/css/main.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
 
@@ -146,37 +137,7 @@ if ($user_id) {
 
 
    <!-- pre loader area start -->
-   <div id="loading">
-      <div id="loading-center">
-         <div id="loading-center-absolute">
-            <!-- loading content here -->
-            <div class="tp-preloader-circle"
-               style="position: relative; width: 190px; height: 190px; background-color: black; border-radius: 50%;">
-
-               <!-- Cercle SVG décoratif par-dessus -->
-               <svg width="190" height="190" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  style="position: absolute; top: 0; left: 0; z-index: 2;">
-                  <circle stroke="#D9D9D9" cx="190" cy="190" r="180" stroke-width="6" stroke-linecap="round" />
-                  <circle stroke="red" cx="190" cy="190" r="180" stroke-width="6" stroke-linecap="round" />
-               </svg>
-
-               <!-- Image centrée -->
-               <img src="assets/img/logo/preloader/preloader-icon-centered.svg" alt="logo" style="
-                  position: absolute;
-                  top: 50%;
-                  left: 50%;
-                  transform: translate(-50%, -50%);
-                  width: 120px;
-                  height: 120px;
-                  z-index: 1;">
-            </div>
-
-            <h3 class="tp-preloader-title">UrDesire</h3>
-            <p class="tp-preloader-subtitle">Loading</p>
-         </div>
-      </div>
-   </div>
-   </div>
+ 
    <!-- pre loader area end -->
 
    <!-- back to top start -->
@@ -191,84 +152,7 @@ if ($user_id) {
    <!-- back to top end -->
 
    <!-- offcanvas area start -->
-   <div class="offcanvas__area offcanvas__style-green">
-      <div class="offcanvas__wrapper">
-         <div class="offcanvas__close">
-            <button class="offcanvas__close-btn offcanvas-close-btn">
-               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                     stroke-linejoin="round" />
-                  <path d="M1 1L11 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                     stroke-linejoin="round" />
-               </svg>
-            </button>
-         </div>
-         <div class="offcanvas__content">
-            <div class="offcanvas__top mb-70 d-flex justify-content-between align-items-center">
-               <div class="offcanvas__logo logo">
-                  <a href="index.php">
-                     <img src="assets/img/logo/logo/logo-noground.png" alt="logo">
-                  </a>
-               </div>
-            </div>
-            <div class="offcanvas__category pb-40">
-               <button class="tp-offcanvas-category-toggle" style="background-color: #E44C76;" >
-                  <i class="fa-solid fa-bars"></i>
-                  Catégories
-               </button>
-               <div class="tp-category-mobile-menu">
-
-               </div>
-            </div>
-            <div class="tp-main-menu-mobile fix d-lg-none mb-40"></div>
-
-            <div class="offcanvas__contact align-items-center d-none">
-               <div class="offcanvas__contact-icon mr-20">
-                  <span>
-                     <img src="assets/img/icon/contact.png" alt="">
-                  </span>
-               </div>
-               <div class="offcanvas__contact-content">
-                  <h3 class="offcanvas__contact-title">
-                     <a href="tel:098-852-987">004524865</a>
-                  </h3>
-               </div>
-            </div>
-            <div class="offcanvas__btn">
-               <a href="contact.html" class="tp-btn-2 tp-btn-border-2">Contact Us</a>
-            </div>
-         </div>
-         <div class="offcanvas__bottom">
-            <div class="offcanvas__footer d-flex align-items-center justify-content-between">
-               <div class="offcanvas__currency-wrapper currency">
-                  <span class="offcanvas__currency-selected-currency tp-currency-toggle"
-                     id="tp-offcanvas-currency-toggle">Currency : USD</span>
-                  <ul class="offcanvas__currency-list tp-currency-list">
-                     <li>XOF</li>
-                     <li>EUR</li>
-                  </ul>
-               </div>
-               <!-- <div class="offcanvas__select language">
-                     <div class="offcanvas__lang d-flex align-items-center justify-content-md-end">
-                        <div class="offcanvas__lang-img mr-15">
-                           <img src="assets/img/icon/language-flag.png" alt="">
-                        </div>
-                        <div class="offcanvas__lang-wrapper">
-                           <span class="offcanvas__lang-selected-lang tp-lang-toggle" id="tp-offcanvas-lang-toggle">English</span>
-                           <ul class="offcanvas__lang-list tp-lang-list">
-                              <li>Spanish</li>
-                              <li>Portugese</li>
-                              <li>American</li>
-                              <li>Canada</li>
-                           </ul>
-                        </div>
-                     </div>
-                  </div> -->
-            </div>
-         </div>
-      </div>
-   </div>
-   <div class="body-overlay"></div>
+      <?php include 'includes/offcanvas.php'; ?>
    <!-- offcanvas area end -->
 
    <!-- mobile menu area start -->
@@ -329,9 +213,9 @@ if ($user_id) {
                   <div class="tp-search-close text-center mb-20">
                      <button class="tp-search-close-btn tp-search-close-btn"></button>
                   </div>
-                  <form action="#">
+                  <form action="profile.php" method="get">
                      <div class="tp-search-input mb-10">
-                        <input type="text" placeholder="Recherche un produit...">
+                        <input type="text" name="query" placeholder="Recherche un produit...">
                         <button type="submit"><i class="flaticon-search-1"></i></button>
                      </div>
                      <div class="tp-search-category">
@@ -351,66 +235,9 @@ if ($user_id) {
    <!-- search area end -->
 
    <!-- cart mini area start -->
-   <div class="cartmini__area">
-      <div class="cartmini__wrapper d-flex justify-content-between flex-column">
-         <div class="cartmini__top-wrapper">
-            <div class="cartmini__top p-relative">
-               <div class="cartmini__top-title">
-                  <h4>Shopping cart</h4>
-               </div>
-               <div class="cartmini__close">
-                  <button type="button" class="cartmini__close-btn cartmini-close-btn"><i
-                        class="fal fa-times"></i></button>
-               </div>
-            </div>
-            <div class="cartmini__shipping">
-               <p> Free Shipping for all orders over <span>$50</span></p>
-               <div class="progress">
-                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                     data-width="70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-               </div>
-            </div>
-            <div class="cartmini__widget">
-               <div class="cartmini__widget-item">
-                  <div class="cartmini__thumb">
-                     <a href="product-details.html">
-                        <img src="assets/img/product/product-1.jpg" alt="">
-                     </a>
-                  </div>
-                  <div class="cartmini__content">
-                     <h5 class="cartmini__title"><a href="product-details.html">Level Bolt Smart Lock</a></h5>
-                     <div class="cartmini__price-wrapper">
-                        <span class="cartmini__price">$46.00</span>
-                        <span class="cartmini__quantity">x2</span>
-                     </div>
-                  </div>
-                  <a href="#" class="cartmini__del"><i class="fa-regular fa-xmark"></i></a>
-               </div>
-            </div>
-            <!-- for wp -->
-            <!-- if no item in cart -->
-            <div class="cartmini__empty text-center d-none">
-               <img src="assets/img/product/cartmini/empty-cart.png" alt="">
-               <p>Your Cart is empty</p>
-               <a href="shop.php" class="tp-btn" style="background-color: #E44C76;" onmouseover="this.style.backgroundColor='#C50E40'" onmouseout="this.style.backgroundColor='#E44C76'"> Go to Shop</a>
-            </div>
-         </div>
-         <div class="cartmini__checkout">
-            <div class="cartmini__checkout-title mb-30">
-               <h4>Subtotal:</h4>
-               <span>$113.00</span>
-            </div>
-            <div class="cartmini__checkout-btn">
-               <a href="cart.php" class="tp-btn mb-10 w-100" style="background-color: #E44C76;" onmouseover="this.style.backgroundColor='#C50E40'" onmouseout="this.style.backgroundColor='#E44C76'"> view cart</a>
-               <a href="checkout.html" class="tp-btn tp-btn-border w-100" style="background-color: #E44C76;" onmouseover="this.style.backgroundColor='#C50E40'" onmouseout="this.style.backgroundColor='#E44C76'"> checkout</a>
-            </div>
-         </div>
-      </div>
-   </div>
+         <?php include 'includes/cartmini.php'; ?>
    <!-- cart mini area end -->
-   <header>
-      <?php include 'includes/header.php'; ?>
-   </header>
+<?php include 'includes/header.php'; ?>
 
       <main>
 
@@ -435,7 +262,13 @@ if ($user_id) {
                               <button class="nav-link" id="nav-information-tab" data-bs-toggle="tab" data-bs-target="#nav-information" type="button" role="tab" aria-controls="nav-information" aria-selected="false"><span><i class="fa-regular fa-circle-info"></i></span> Information</button>
                               <button class="nav-link" id="nav-address-tab" data-bs-toggle="tab" data-bs-target="#nav-address" type="button" role="tab" aria-controls="nav-address" aria-selected="false"><span><i class="fa-light fa-location-dot"></i></span> Adresse </button>
                               <button class="nav-link" id="nav-order-tab" data-bs-toggle="tab" data-bs-target="#nav-order" type="button" role="tab" aria-controls="nav-order" aria-selected="false"><span><i class="fa-light fa-clipboard-list-check"></i></span> Mes Commandes </button>
-                              <button class="nav-link" id="nav-notification-tab" data-bs-toggle="tab" data-bs-target="#nav-notification" type="button" role="tab" aria-controls="nav-notification" aria-selected="false"><span><i class="fa-regular fa-bell"></i></span> Notifications</button>
+                              <button class="nav-link" id="nav-notification-tab" data-bs-toggle="tab" data-bs-target="#nav-notification" type="button" role="tab" aria-controls="nav-notification" aria-selected="false">
+                                 <span><i class="fa-regular fa-bell"></i></span>
+                                 Notifications
+                                 <?php if (!empty($unread_count)): ?>
+                                    <span class="badge bg-danger ms-2"><?php echo $unread_count; ?></span>
+                                 <?php endif; ?>
+                              </button>                              
                               <button class="nav-link" id="nav-password-tab" data-bs-toggle="tab" data-bs-target="#nav-password" type="button" role="tab" aria-controls="nav-password" aria-selected="false"><span><i class="fa-regular fa-lock"></i></span> Changer le Mot de Passe</button>
                               <span id="marker-vertical" class="tp-tab-line d-none d-sm-inline-block"></span>
                            </div>
@@ -514,17 +347,70 @@ if ($user_id) {
                                  </div>
                               </div>
                            </div>
+
                            <div class="tab-pane fade" id="nav-information" role="tabpanel" aria-labelledby="nav-information-tab">
                               <div class="profile__info">
                                  <h3 class="profile__info-title">Détails Personnels</h3>
                                  <div class="profile__info-content">
-                                    <form method="post" id="passwordForm">
-                                       <input type="password" name="current_password" placeholder="Ancien mot de passe" required>
-                                       <input type="password" name="new_password" placeholder="Nouveau mot de passe" required>
-                                       <input type="password" name="confirm_password" placeholder="Confirmer le mot de passe" required>
-                                       <button type="submit">Changer le mot de passe</button>
+                                    <form action="includes/update_profile.php" method="POST">
+                                       <div class="row">
+                                          <div class="col-xxl-6 col-md-6">
+                                             <div class="profile__input-box">
+                                                <div class="profile__input">
+                                                   <input type="text" name="pseudo" placeholder="Entrez votre nom d'utilisateur" value="<?php echo htmlspecialchars($pseudo); ?>">
+                                                   <span>
+                                                      <svg width="17" height="19" viewBox="0 0 17 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                         <path d="M9 9C11.2091 9 13 7.20914 13 5C13 2.79086 11.2091 1 9 1C6.79086 1 5 2.79086 5 5C5 7.20914 6.79086 9 9 9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                         <path d="M15.5 17.6C15.5 14.504 12.3626 12 8.5 12C4.63737 12 1.5 14.504 1.5 17.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                      </svg>
+                                                   </span>
+                                                </div>
+                                             </div>
+                                          </div>
+                                         
+                                          <div class="col-xxl-6 col-md-6">
+                                             <div class="profile__input-box">
+                                                <div class="profile__input">
+                                                   <input type="text" name="phone" placeholder="Entrez votre numéro" value="<?php echo htmlspecialchars($phone); ?>">
+                                                   <span>
+                                                      <svg width="15" height="18" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                         <path d="M13.9148 5V13C13.9148 16.2 13.1076 17 9.87892 17H5.03587C1.80717 17 1 16.2 1 13V5C1 1.8 1.80717 1 5.03587 1H9.87892C13.1076 1 13.9148 1.8 13.9148 5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                         <path opacity="0.4" d="M9.08026 3.80054H5.85156" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                         <path opacity="0.4" d="M7.45425 14.6795C8.14522 14.6795 8.70537 14.1243 8.70537 13.4395C8.70537 12.7546 8.14522 12.1995 7.45425 12.1995C6.76327 12.1995 6.20312 12.7546 6.20312 13.4395C6.20312 14.1243 6.76327 14.6795 7.45425 14.6795Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                      </svg>                                                                                        
+                                                   </span>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          
+                                          <div class="col-xxl-12">
+                                             <div class="profile__input-box">
+                                                <div class="profile__input">
+                                                   <input type="text" name="address" placeholder="Entrez votre adresse" value="<?php echo htmlspecialchars($address); ?>">
+                                                   <span>
+                                                      <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                         <path d="M7.99377 10.1461C9.39262 10.1461 10.5266 9.0283 10.5266 7.64946C10.5266 6.27061 9.39262 5.15283 7.99377 5.15283C6.59493 5.15283 5.46094 6.27061 5.46094 7.64946C5.46094 9.0283 6.59493 10.1461 7.99377 10.1461Z" stroke="currentColor" stroke-width="1.5"/>
+                                                         <path d="M1.19707 6.1933C2.79633 -0.736432 13.2118 -0.72843 14.803 6.2013C15.7365 10.2663 13.1712 13.7072 10.9225 15.8357C9.29079 17.3881 6.70924 17.3881 5.06939 15.8357C2.8288 13.7072 0.263493 10.2583 1.19707 6.1933Z" stroke="currentColor" stroke-width="1.5"/>
+                                                      </svg>
+                                                   </span>
+                                                </div>
+                                             </div>
+                                          </div>
+
+                                          <div class="col-xxl-12">
+                                             <div class="profile__input-box">
+                                                <div class="profile__input">
+                                                   <textarea name="bio" placeholder="Entrez votre bio"><?php echo $bio; ?></textarea>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="col-xxl-12">
+                                             <div class="profile__btn">
+                                                <button type="submit" class="tp-btn" style="background-color: #E44C76;" onmouseover="this.style.backgroundColor='#C50E40'" onmouseout="this.style.backgroundColor='#E44C76'">Mettre à jour le profil</button>
+                                             </div>
+                                          </div>
+                                       </div>
                                     </form>
-                                    <div id="passwordMsg" style="margin-top:10px;"></div>
                                  </div>
                               </div>
                            </div>
@@ -571,6 +457,7 @@ if ($user_id) {
                                  </form>
                               </div>
                            </div>
+
                            <div class="tab-pane fade" id="nav-address" role="tabpanel" aria-labelledby="nav-address-tab">
                               <div class="profile__address">
                                  <div class="row">
@@ -622,10 +509,49 @@ if ($user_id) {
 
                            </div>
                            <div class="tab-pane fade" id="nav-order" role="tabpanel" aria-labelledby="nav-order-tab">
-                              <?php
-                                 // Inclure le fichier de commandes
-                                 require_once 'myorder.php';
-                              ?>
+                              <div class="profile__ticket table-responsive">
+                                 <table class="table">
+                                    <thead>
+                                       <tr>
+                                          <th scope="col">Id de la Commande</th>
+                                          <th scope="col">Titre du Produit</th>
+                                          <th scope="col">Statut</th>
+                                          <th scope="col">Voir</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php if (!empty($orders)): ?>
+                                          <?php foreach ($orders as $order): ?>
+                                             <tr>
+                                                <th scope="row">#<?= htmlspecialchars($order['order_number']) ?></th>
+                                                <td>
+                                                   <?php
+                                                   // On récupère le premier titre de produit associé à la commande
+                                                   $stmtItems = $pdo->prepare("
+                                                      SELECT p.title FROM order_items oi
+                                                      JOIN products p ON oi.product_id = p.id
+                                                      WHERE oi.order_id = ?
+                                                      LIMIT 1
+                                                   ");
+                                                   $stmtItems->execute([$order['id']]);
+                                                   $product = $stmtItems->fetchColumn();
+                                                   echo htmlspecialchars($product ?? 'Produit inconnu');
+                                                   ?>
+                                                </td>
+                                                <td><?= ucfirst(htmlspecialchars($order['status'])) ?></td>
+                                                <td>
+                                                   <a href="facture.php?order=<?= $order['id'] ?>" class="tp-logout-btn">Voir</a>
+                                                </td>
+                                             </tr>
+                                          <?php endforeach; ?>
+                                       <?php else: ?>
+                                          <tr>
+                                             <td colspan="4">Aucune commande trouvée.</td>
+                                          </tr>
+                                       <?php endif; ?>
+                                    </tbody>
+                                 </table>
+                              </div>
                            </div>
                            <div class="tab-pane fade" id="nav-notification" role="tabpanel" aria-labelledby="nav-notification-tab">
                               <div class="profile__notification">
@@ -650,7 +576,20 @@ if ($user_id) {
      </section>
      <!-- profile area end -->
 
-     <!-- MODALE BOOTSTRAP -->
+   <?php
+      if (isset($_GET['success']) || isset($_GET['error'])) {
+         $notifType = isset($_GET['success']) ? 'success' : 'error';
+         $messages = [
+            'password_updated' => '✅ Votre mot de passe a été modifié avec succès.',
+            'unauthenticated' => 'Vous devez être connecté pour changer votre mot de passe.',
+            'missing_fields' => 'Veuillez remplir tous les champs.',
+            'nomatch' => '❌ Les nouveaux mots de passe ne correspondent pas.',
+            'wrong_old' => '❌ L’ancien mot de passe est incorrect.'
+         ];
+         $key = $_GET['success'] ?? $_GET['error'];
+         $msg = $messages[$key] ?? 'Notification inconnue.';
+   ?>
+      <!-- MODALE BOOTSTRAP -->
       <div class="modal fade" id="passwordFeedback" tabindex="-1" aria-labelledby="passwordFeedbackLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
          <div class="modal-content">
@@ -659,40 +598,19 @@ if ($user_id) {
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
             </div>
             <div class="modal-body">
-            <?= htmlspecialchars($msg ?? '') ?>
+            <?= htmlspecialchars($msg) ?>
             </div>
          </div>
       </div>
       </div>
 
       <script>
-         document.getElementById('passwordForm').addEventListener('submit', function(e) {
-         e.preventDefault();
-         const formData = new FormData(this);
-
-         fetch('includes/change_password.php', {
-            method: 'POST',
-            body: formData
-         })
-         .then(res => res.json())
-         .then(data => {
-            const msg = document.getElementById('passwordMsg');
-            msg.textContent = data.message;
-            msg.style.color = data.success ? 'green' : 'red';
-         })
-         .catch(() => {
-            document.getElementById('passwordMsg').textContent = "Erreur de communication.";
-         });
-         });
-      </script>
-
-      <!-- <script>
       document.addEventListener("DOMContentLoaded", function () {
          var modal = new bootstrap.Modal(document.getElementById('passwordFeedback'));
          modal.show();
       });
-      </script> -->
-
+      </script>
+   <?php } ?>
 
       <!-- MODALE FACTURATION -->
       <div class="modal fade" id="editBillingModal" tabindex="-1" aria-labelledby="editBillingModalLabel" aria-hidden="true">
@@ -782,6 +700,7 @@ if ($user_id) {
       </div>
       </div>
 
+
       </main>
       
 
@@ -814,9 +733,9 @@ if ($user_id) {
                         <h4 class="tp-footer-widget-title">Mon compte</h4>
                         <div class="tp-footer-widget-content">
                            <ul>
-                              <li><a href="#">Suivre les commandes</a></li>
-                              <li><a href="#">Liste de souhaits</a></li>
-                              <li><a href="#">Mon compte</a></li>
+                              <li><a href="orders.php">Suivre les commandes</a></li>
+                              <li><a href="wishlist.php">Liste de souhaits</a></li>
+                              <li><a href="profile.php">Mon compte</a></li>
                               <li><a href="#">Historique des commandes</a></li>
                               <li><a href="#">Retours</a></li>
                            </ul>
@@ -925,7 +844,16 @@ if ($user_id) {
    </footer>
       <!-- footer area end -->
 
-      
+      <!-- <script>
+   $(document).ready(function(){
+      // Active les onglets Bootstrap
+      $('button[data-bs-toggle="tab"]').on('click', function(e) {
+         e.preventDefault();
+         $(this).tab('show');
+      });
+   });
+   </script> -->
+
       <script>
       function handleAddressForm(formId, type) {
       document.getElementById(formId).addEventListener('submit', function(e) {
@@ -959,12 +887,9 @@ if ($user_id) {
       handleAddressForm('shippingForm', 'shipping');
       </script>
 
-
-
-      <!-- JS here -->
-      <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/vendor/jquery.js"></script>
+ <!-- JS here -->
       <script src="assets/js/vendor/waypoints.js"></script>
-      <script src="assets/js/bootstrap-bundle.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="assets/js/meanmenu.js"></script>
       <script src="assets/js/swiper-bundle.js"></script>
       <script src="assets/js/slick.js"></script>
@@ -977,7 +902,11 @@ if ($user_id) {
       <script src="assets/js/isotope-pkgd.js"></script>
       <script src="assets/js/imagesloaded-pkgd.js"></script>
       <script src="assets/js/ajax-form.js"></script>
-      <script src="assets/js/main.js"></script>
+      
+            <script src="assets/js/bootstrap.bundle.js"></script>
+
+            <script src="assets/js/main.js"></script>
+
    </body>
 
 <!-- Mirrored from html.weblearnbd.net/shofy-prv/shofy/profile.php by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 15 Oct 2023 08:15:25 GMT -->
